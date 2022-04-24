@@ -12,6 +12,8 @@
       var split_url = url.split(/[=&]+/);
       var viewed_user = split_url[1]; 
       document.title = viewed_user;
+      document.getElementById("display1").innerHTML = viewed_user;
+      document.getElementById("username_display").innerHTML = viewed_user;
 
 
       
@@ -155,7 +157,7 @@ var direct_table = document.getElementById('videos');
     <div class="services container">
       <div class="service-top">
         <h1 class="section-title"><span id="username_display"></span></h1>
-        <p id="username_display">NFT Collection</p>
+        <p id="username_display">Collection</p>
       </div>
       <!--from here-->
       <span id="display_cards"></span>
