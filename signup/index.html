@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Sign Up</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="css/style.css">
+
+
+
+	
+    <script>
+		function removeSpace() {
+			 $("#username").val($.trim($("#username").val()).replace(/ /g,''));
+		  }
+		</script>
+	
+  
+	<script>
+		
+		  function go()
+		  {
+		  	
+		}
+	  
+	   </script>
+  
+  
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+  <script>
+	// Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyCp3BUmyCJeDhq8ML8fb9FOQOSO1joej04",
+
+authDomain: "flirt-inu.firebaseapp.com",
+
+databaseURL: "https://flirt-inu-default-rtdb.firebaseio.com",
+
+projectId: "flirt-inu",
+
+storageBucket: "flirt-inu.appspot.com",
+
+messagingSenderId: "230164576021",
+
+appId: "1:230164576021:web:d6e7396917c78b30d15b1c",
+
+measurementId: "G-2F5L6VV1LM"
+
+	};
+  firebase.initializeApp(config);
+  
+   function save_user(){
+  
+	var data = {
+	 username: document.getElementById('username').value,
+	 password: document.getElementById('password').value,
+	 address: document.getElementById('address').value,
+	}
+  
+	function gotonext(){
+		window.alert("Account created successfully");
+	  location.replace("../user.html");
+	}
+  
+	var updates = {};
+	updates['/users/' + document.getElementById('username').value] = data;
+	firebase.database().ref().update(updates).then(() => {
+  
+	console.log("Saved successfully");
+  //  window.alert("Account registered successfully");
+	localStorage.setItem("username", document.getElementById("username").value);
+	//location.replace("dashboard.html");
+  
+	var databaserefer = firebase.database().ref('users/'+document.getElementById("username").value+"/password");
+  
+	var user_saved = false;
+  
+	
+  
+	databaserefer.on('value', (snapshot) =>{
+		const data = snapshot.val();
+	   // window.alert("Welcome");
+	   localStorage.setItem("username", document.getElementById("username").value);
+	   //location.replace("dashboard.html");
+	   if(data == document.getElementById("password").value)
+	   {
+		//   sendEmail();
+		gotonext();
+	  }
+  
+	  });
+  
+	  });
+	
+  
+  
+  }
+  
+  function checkbox()
+  {
+	  if((document.getElementById("username").value != "") && (document.getElementById('password').value != "") && (document.getElementById('address').value != "") )
+	  {
+	  //	window.alert(document.getElementById("username").value);
+		  checkusername();
+	  }
+  
+	  else{
+		  window.alert("Please fill in all the required fields");
+	  }
+  }
+  
+  function checkusername()
+  {
+  
+  
+		  var checked = false;
+		  var exist = 500;
+		  var data = "not_null";
+		  
+			  console.log("retying");
+		  var databaserefer = firebase.database().ref('users/'+document.getElementById("username").value+"/password");
+			
+			databaserefer.on('value', (snapshot) =>{
+			  console.log("okay");
+		  
+			  data = snapshot.val();
+  
+			  
+		  if(data == null)
+		  {
+			  exist = 1000;
+		  }
+  
+		  else if(data != null && data != "not_null"){
+			  exist = 2000;
+		  }
+		  else{console.log("");}
+  
+		  if(exist == 1000)
+			  {
+				  checked = true;
+				  save_user();
+			  }
+  
+			  else if(exist == 2000)
+			  {
+				  if(!checked)
+				  {
+					  window.alert("Username exists! Please choose a new username");
+				  }
+				  
+			  }
+  
+			  else{
+				  console.log("Retrying");
+			  }
+  
+	  });
+  
+  
+		  
+		  
+	
+  }
+  
+  
+  </script>
+  
+  
+
+
+
+
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+				
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-12 col-lg-10">
+					<div class="wrap d-md-flex">
+						<div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+							<div class="text w-100">
+								<h2>Already have an account</h2>
+	
+								<a href="../login/index.html" class="btn btn-white btn-outline-white">Log In</a>
+							</div>
+			      </div>
+						<div class="login-wrap p-4 p-lg-5">
+			      	<div class="d-flex">
+			      		<div class="w-100">
+			      			<h3 class="mb-4">Sign Up</h3>
+			      		</div>
+								
+			      	</div>
+							<form action="#" class="signin-form">
+			      		<div class="form-group mb-3">
+			      			<label class="label" for="name">Username</label>
+			      			<input type="text" class="form-control" onkeyup="removeSpace()" id="username" placeholder="Username" required>
+			      		</div>
+						  <div class="form-group mb-3">
+							<label class="label" for="password">FlirtInu Address</label>
+						  <input type="text" class="form-control" placeholder="FlirtInu Address" id="address" required>
+						</div>
+		            <div class="form-group mb-3">
+		            	<label class="label" for="password">Password</label>
+		              <input type="password" class="form-control" placeholder="Password" id="password" required>
+		            </div>
+		            <div class="form-group">
+		            	<button type="button" class="form-control btn btn-primary submit px-3" onclick="checkbox()">Sign Up</button>
+		            </div>
+		            <div class="form-group d-md-flex">
+		            	<div class="w-50 text-left">
+			            	
+									</div>
+									<div class="w-50 text-md-right">
+										<a href="#">Forgot Password</a>
+									</div>
+		            </div>
+		          </form>
+		        </div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+
+	</body>
+</html>
+

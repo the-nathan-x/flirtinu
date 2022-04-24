@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/view_collection.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <title>My Website</title>
+  <script>
+      var url = window.location.search;
+      var split_url = url.split(/[=&]+/);
+      var viewed_user = split_url[1]; 
+      document.title = viewed_user;
+
+
+      
+      
+      function show()
+      {
+        document.getElementById("display1").innerHTML = viewed_user;
+        document.getElementById("username_display").innerHTML = viewed_user;
+        drawcontent();
+      }
+
+      function go()
+      {
+    
+
+
+      }
+
+
+  </script>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+ <script>
+   // Initialize Firebase
+
+   var config = {
+    apiKey: "AIzaSyCp3BUmyCJeDhq8ML8fb9FOQOSO1joej04",
+
+authDomain: "flirt-inu.firebaseapp.com",
+
+databaseURL: "https://flirt-inu-default-rtdb.firebaseio.com",
+
+projectId: "flirt-inu",
+
+storageBucket: "flirt-inu.appspot.com",
+
+messagingSenderId: "230164576021",
+
+appId: "1:230164576021:web:d6e7396917c78b30d15b1c",
+
+measurementId: "G-2F5L6VV1LM"
+};
+
+   firebase.initializeApp(config);
+ </script>
+
+<script>
+
+
+var counter = 0; //counts nfts owned by a user    
+var databaseRef = firebase.database().ref('images/'+viewed_user+'/');
+  
+
+
+
+var rowIndex = 1;
+
+
+
+  databaseRef.once('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+   var childKey = childSnapshot.key;
+   var childData = childSnapshot.val();
+   
+   
+
+ //  cellId.appendChild(document.createTextNode(childKey));
+  // cellName.appendChild(document.createTextNode(childData.user_name));
+  console.log(childData);
+//  var img_name = childData["img_name"];
+  console.log(childData["img_name"]);
+  var img_name = childData["img_name"];
+  var img_url_object = childData["img_url"];
+  var img_url = img_url_object["url"];
+  console.log(img_url);
+  var price = childData["price"];
+  console.log("price is "+img_name);
+//  counter++ ;
+//  console.log("This user has "+counter); 
+
+var direct_table = document.getElementById('videos');
+      var row = direct_table.insertRow(rowIndex);
+      var cellthum = row.insertCell(0);
+      var celldesc = row.insertCell(1);
+      var cellprice = row.insertCell(2);
+
+
+      var img = document.createElement('img');
+      img.className = "thumb";
+      img.src =  img_url;
+
+      cellthum.appendChild(img);
+      celldesc.appendChild(document.createTextNode(img_name));
+      cellprice.appendChild(document.createTextNode(price));
+     // window.alert("okay");
+
+
+     rowIndex = rowIndex + 1;
+
+
+    });
+  });
+
+ 
+
+
+
+
+</script>
+
+</head>
+
+<body onload="go()">
+  <!-- Header -->
+  <section id="header">
+    <div class="header container">
+      <div class="nav-bar">
+        <div class="brand">
+          <a href="#hero">
+            <h1><span id="display1"></span></h1>
+          </a>
+        </div>
+        <div class="nav-list">
+          <div class="hamburger">
+            <div class="bar"></div>
+          </div>
+          <ul>
+            <li><a href="home.html" data-after="Home">Home</a></li>
+            <li><a href="getlisted.html" data-after="Service">Get Listed</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Header -->
+
+
+  <!-- Service Section -->
+  <section id="services">
+    <div class="services container">
+      <div class="service-top">
+        <h1 class="section-title"><span id="username_display"></span></h1>
+        <p id="username_display">NFT Collection</p>
+      </div>
+      <!--from here-->
+      <span id="display_cards"></span>
+      <table class="w3-table w3-bordered" id="videos">
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+         <!--<th>Username</th>--> 
+         <!--<th>Status</th>--> 
+        </tr>
+      </table>
+    </div>
+
+
+
+      <!--to here-->
+      </div>
+
+
+
+
+
+  
+  <!-- Footer -->
+  <section id="footer">
+    <div class="footer container">
+      <div class="brand">
+        <h1><span>F</span>lirt  <span>-&nbsp; </span>Inu</h1>
+      </div>
+      
+      
+      <p>Flirt Inu © 2022. All rights reserved</p>
+    </div>
+  </section>
+  <!-- End Footer -->
+
+  <script src="js/view_collection.js"></script>
+</body>
+
+</html>
