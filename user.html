@@ -56,9 +56,19 @@ var data = {
 
 var updates = {};
 updates["images/"+sessionStorage.getItem("username")+"/"+ Math.floor((Math.random() * 10000000) + 1)] = data;
-firebase.database().ref().update(updates);
+//firebase.database().ref().update(updates);
+
+
+firebase.database().ref().update(updates).then(() => {
+  
 console.log("Saved successfully");
 window.alert("Upload Complete");
+var link = "view_collection.html?user="+localStorage.getItem("username");
+location.replace(link);
+	  
+});
+
+
 //location.reload();
 }
 
@@ -221,13 +231,15 @@ task.on('state_changed',
       </div>
       
       <form class="w3-container">
-        <p>
+      <p>       
+        <label>Short video name</label>
         <input class="w3-input" type="text" id="name">
-        <label>Short video name</label></p>
+      </p>
 
-        <p>
+        <p>  
+          <label>Price in Flirt-Inu</label>
           <input class="w3-input" type="text" id="price">
-          <label>Price in Flirt-Inu</label></p>
+        </p>
         
       </form>
       <input type="button" class="cta" onclick="uploadimg()" value="Done" id="button"/>
